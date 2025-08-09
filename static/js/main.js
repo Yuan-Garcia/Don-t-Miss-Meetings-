@@ -180,18 +180,15 @@ async function loadEvents() {
   const url = els.icsInput.value.trim();
   if (!url) return;
   try {
-    const res = await fetch("/events", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url })
-    });
-    const data = await res.json();
-    state.events = data.events || [];
+    const res = await fetch(`/api/events?url=${encodeURIComponent(url)}`);
+    const data = await res.json();          // backend returns an array
+    state.events = Array.isArray(data) ? data : (data.events || []);
     renderLegend();
   } catch (err) {
     console.error("Failed to load events", err);
   }
 }
+
 
 els.loadBtn.addEventListener("click", async () => {
   state.twelveHour = els.twelveCheck.checked;

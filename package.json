@@ -1,13 +1,12 @@
 {
-  "name": "calendar-clock",
+  "name": "dont-miss-meetings",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "npx http-server ./src"
+    "start": "node server.js"
   },
-  "devDependencies": {
-    "eslint": "^8.0.0",
-    "prettier": "^3.0.0",
-    "http-server": "^14.0.0"
+  "dependencies": {
+    "express": "^4.21.2",
+    "node-fetch": "^3.3.2"
   }
 }

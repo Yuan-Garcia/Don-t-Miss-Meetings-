@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Calendar Clock</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="bar">
+        <h1>Calendar Clock</h1>
+        <div class="controls">
+          <input id="ics-url" type="url" placeholder="Paste Google Calendar ICS URL" />
+          <button id="load">Load</button>
+          <label class="toggle">
+            <input type="checkbox" id="twelve" />
+            <span>12-hour</span>
+          </label>
+        </div>
+      </header>
+
+      <section class="stage">
+        <canvas id="clock" width="600" height="600" aria-label="Calendar clock"></canvas>
+        <div id="legend" class="legend"></div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span class="hint">Your ICS never touches the browser—Flask fetches it server-side.</span>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>

@@ -1,13 +1,14 @@
-// Replace with your private ICS URL from Google Calendar
-// Google Calendar → Settings → Integrate calendar → "Secret address in iCal format"
-const ICS_URL = "";
-
-export async function getTodayEvents() {
-  const res = await fetch(ICS_URL);
-  if (!res.ok) throw new Error("Failed to fetch calendar");
-  const icsText = await res.text();
-
-  return parseICSToday(icsText);
+export async function getTodayEvents(icsUrl) {
+  if (!icsUrl) return [];
+  try {
+    const res = await fetch(icsUrl);
+    if (!res.ok) throw new Error("Failed to fetch calendar");
+    const icsText = await res.text();
+    return parseICSToday(icsText);
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 }
 
 function parseICSToday(ics) {
@@ -29,13 +30,12 @@ function parseICSToday(ics) {
     const start = parseICSDate(dtStartMatch[1]);
     const end = parseICSDate(dtEndMatch[1]);
 
-    // Filter to events that touch today
     if (end >= startOfDay && start <= endOfDay) {
       events.push({
         summary: summaryMatch ? summaryMatch[1] : "(busy)",
         start: start.toISOString(),
         end: end.toISOString(),
-        allDay: dtStartMatch[1].length === 8 // YYYYMMDD
+        allDay: dtStartMatch[1].length === 8
       });
     }
   }
@@ -43,7 +43,6 @@ function parseICSToday(ics) {
 }
 
 function parseICSDate(str) {
-  // Handles YYYYMMDD or YYYYMMDDTHHmmssZ
   if (str.includes("T")) {
     const year = parseInt(str.slice(0, 4));
     const month = parseInt(str.slice(4, 6)) - 1;
@@ -53,7 +52,6 @@ function parseICSDate(str) {
     const sec = parseInt(str.slice(13, 15));
     return new Date(Date.UTC(year, month, day, hour, min, sec));
   } else {
-    // All-day event
     const year = parseInt(str.slice(0, 4));
     const month = parseInt(str.slice(4, 6)) - 1;
     const day = parseInt(str.slice(6, 8));

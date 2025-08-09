@@ -87,18 +87,67 @@ canvas {
   border: 1px solid rgba(255,255,255,.06);
 }
 
+/* Card container */
 .legend {
   background: var(--panel);
   border: 1px solid rgba(255,255,255,.06);
   border-radius: 16px;
-  padding: 16px 18px;
+  padding: 18px 20px;
   box-shadow: var(--shadow);
   min-height: 120px;
+  display: flex;
+  align-items: center;
 }
-.legend .row { display: grid; grid-template-columns: 14px 1fr; gap: 10px; align-items: center; padding: 8px 0; }
-.legend .swatch { width: 14px; height: 14px; border-radius: 3px; box-shadow: 0 2px 8px rgba(0,0,0,.35); }
-.legend .txt { color: var(--muted); }
-.legend .time { color: var(--ink); font-weight: 600; }
+
+/* Next-event card */
+.card {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 6px;
+  max-width: 520px;
+}
+
+.card .eyebrow {
+  font-size: 14px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;           /* keep on one line */
+}
+
+.card .title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.card .meta {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.card .badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(124,156,255,.12);
+  border: 1px solid rgba(124,156,255,.35);
+  color: var(--ink);
+  font-size: 12px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* Optional: center card when empty/short */
+.legend:empty::before {
+  content: "No more events today.";
+  color: var(--muted);
+  opacity: .85;
+}
+
+
 
 .foot {
   color: var(--muted);

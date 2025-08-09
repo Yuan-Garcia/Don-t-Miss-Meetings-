@@ -145,30 +145,50 @@ function drawHands() {
 }
 
 function renderLegend() {
-  if (!state.events.length) {
-    els.legend.innerHTML = "<div class='txt'>No events today.</div>";
-    return;
+  const now = new Date();
+  const events = state.events.slice()
+    .sort((a, b) => new Date(a.start) - new Date(b.start));
+
+  let current = null, next = null;
+  for (const ev of events) {
+    const s = new Date(ev.start), e = new Date(ev.end);
+    if (!current && s <= now && e > now) current = ev;
+    if (!next && s > now) { next = ev; break; }
   }
+
   const fmt = (d) =>
     new Date(d).toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: state.twelveHour
+      hour: "2-digit", minute: "2-digit", hour12: state.twelveHour
     });
 
-  els.legend.innerHTML = state.events
-    .slice()
-    .sort((a, b) => new Date(a.start) - new Date(b.start))
-    .map(
-      (ev, i) => `
-      <div class="row">
-        <span class="swatch" style="background:${COLORS[i % COLORS.length]}"></span>
-        <div class="txt"><span class="time">${fmt(ev.start)}–${fmt(ev.end)}</span> — ${ev.summary || "(busy)"}</div>
-      </div>
-    `
-    )
-    .join("");
+  const mins = (ms) => Math.max(0, Math.round(ms / 60000));
+
+  if (current) {
+    const left = mins(new Date(current.end) - now);
+    els.legend.innerHTML = `
+      <div class="card">
+        <div class="eyebrow">Now<span class="badge">${left} min left</span></div>
+        <div class="title">${current.summary || "(busy)"}</div>
+        <div class="meta">${fmt(current.start)} – ${fmt(current.end)}</div>
+      </div>`;
+    return;
+  }
+
+  if (next) {
+    const until = mins(new Date(next.start) - now);
+    els.legend.innerHTML = `
+      <div class="card">
+        <div class="eyebrow">Next event<span class="badge">in ${until} min</span></div>
+        <div class="title">${next.summary || "(busy)"}</div>
+        <div class="meta">Starts ${fmt(next.start)}</div>
+      </div>`;
+    return;
+  }
+
+  els.legend.innerHTML = ""; // triggers the :empty placeholder
 }
+
+
 
 function render() {
   drawFace();

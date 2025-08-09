@@ -1,0 +1,13 @@
+{
+  "name": "calendar-clock",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "npx http-server ./src"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "http-server": "^14.0.0"
+  }
+}

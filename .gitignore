@@ -207,7 +207,8 @@ marimo/_lsp/
 __marimo__/
 
 # not all the npm stuff
-/node_modules/*
+/backend/node_modules/*
+
 
 # not my key lol
 *.txt

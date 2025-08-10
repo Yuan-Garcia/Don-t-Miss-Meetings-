@@ -71,7 +71,8 @@ function drawFace() {
   }
 
   // Roman numerals
-  const numerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]   ;
+  // CHANGE THIS LATER, 4 IS INTENTIONALLY WRONG
+  const numerals = ["I", "II", "III", "IIII", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]   ;
   ctx.fillStyle = "#e7eaf3";
   ctx.font = "28px serif";
   ctx.textAlign = "center";
